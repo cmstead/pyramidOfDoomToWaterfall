@@ -28,13 +28,7 @@ function asyncProcess(asyncApi, logger) {
             }
         }
 
-        function logMessage(error, ...args) {
-            if (error) {
-                handleErrorCase(error);
-            } else {
-                asyncApi.logMessage(finishAsyncProcess);
-            }
-        }
+        const logMessage = errorOrNext(asyncApi.logMessage, finishAsyncProcess);
 
         function alwaysFails(error, ...args) {
             if (error) {
