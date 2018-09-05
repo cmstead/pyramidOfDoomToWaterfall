@@ -1,0 +1,11 @@
+{
+  "name": "pyramid-of-doom-to-waterfall",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./node_modules/mocha/bin/mocha ./tests/*.test.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
