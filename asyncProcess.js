@@ -12,7 +12,7 @@ function asyncProcess(asyncApi, logger) {
 
         function finishAsyncProcess(error, ...args) {
             if (error) {
-                handleErrorCase(error)
+                handleErrorCase(error);
             } else {
                 callback(null, lastState);
             }
@@ -20,8 +20,7 @@ function asyncProcess(asyncApi, logger) {
 
         function logMessage(error, ...args) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error, lastState);
+                handleErrorCase(error);
             } else {
                 asyncApi.logMessage(finishAsyncProcess);
             }
@@ -29,8 +28,7 @@ function asyncProcess(asyncApi, logger) {
 
         function alwaysFails(error, ...args) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error, lastState);
+                handleErrorCase(error);
             } else {
                 asyncApi.alwaysFails(logMessage);
             }
@@ -38,8 +36,7 @@ function asyncProcess(asyncApi, logger) {
 
         function doubleNumbers(error, ...args) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error, lastState);
+                handleErrorCase(error);
             } else {
                 asyncApi.doubleNumbers(alwaysFails);
             }
