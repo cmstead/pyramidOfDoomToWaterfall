@@ -29,14 +29,7 @@ function asyncProcess(asyncApi, logger) {
         }
 
         const logMessage = errorOrNext(asyncApi.logMessage, finishAsyncProcess);
-
-        function alwaysFails(error, ...args) {
-            if (error) {
-                handleErrorCase(error);
-            } else {
-                asyncApi.alwaysFails(logMessage);
-            }
-        }
+        const alwaysFails = errorOrNext(asyncApi.alwaysFails, logMessage);
 
         function doubleNumbers(error, ...args) {
             if (error) {
