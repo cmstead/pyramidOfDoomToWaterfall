@@ -2,6 +2,16 @@
 
 function asyncProcess(asyncApi, logger) {
 
+    function errorOrNext(nextFunction, callback) {
+        return function(error, ...args) {
+            if(error) {
+                callback(error);
+            } else {
+                nextFunction.apply(null, args.concat([callback]));
+            }
+        }
+    }
+
     function doAsyncStuff(callback) {
         let lastState = null;
 
