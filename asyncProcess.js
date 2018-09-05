@@ -12,6 +12,15 @@ function asyncProcess(asyncApi, logger) {
         }
     }
 
+    function waterfall(asyncFunctions, finallyFunction) {
+        return asyncFunctions
+            .slice(0)
+            .reverse(0)
+            .reduce(function (compositeFunction, nextFunction) {
+                return errorOrNext(nextFunction, compositeFunction);
+            }, finallyFunction);
+    }
+
     function doAsyncStuff(callback) {
         let lastState = null;
 
@@ -19,7 +28,7 @@ function asyncProcess(asyncApi, logger) {
             if (error) {
                 logger.log('An error occurred!', error);
             }
-            
+
             callback(error, lastState);
         }
 
