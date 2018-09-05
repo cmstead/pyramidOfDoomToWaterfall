@@ -18,10 +18,9 @@ function asyncProcess(asyncApi, logger) {
         function finishAsyncProcess(error, ...args) {
             if (error) {
                 logger.log('An error occurred!', error);
-                callback(error, lastState);
-            } else {
-                callback(null, lastState);
             }
+            
+            callback(error, lastState);
         }
 
         const logMessage = errorOrNext(asyncApi.logMessage, finishAsyncProcess);
