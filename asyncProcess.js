@@ -4,7 +4,8 @@ function asyncProcess(asyncApi, logger) {
 
     function doAsyncStuff(callback) {
         let lastState = null;
-        asyncApi.getNumbers(function (error, ...args) {
+        
+        function doubleNumbers(error, ...args) {
             if (error) {
                 logger.log('An error occurred!', error);
                 callback(error, lastState);
@@ -32,9 +33,11 @@ function asyncProcess(asyncApi, logger) {
                     }
                 });
             }
-        });
+        }
+
+        asyncApi.getNumbers(doubleNumbers);
     }
-    
+
     return {
         doAsyncStuff: doAsyncStuff
     };
