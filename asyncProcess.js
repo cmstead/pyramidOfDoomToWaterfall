@@ -30,14 +30,7 @@ function asyncProcess(asyncApi, logger) {
 
         const logMessage = errorOrNext(asyncApi.logMessage, finishAsyncProcess);
         const alwaysFails = errorOrNext(asyncApi.alwaysFails, logMessage);
-
-        function doubleNumbers(error, ...args) {
-            if (error) {
-                handleErrorCase(error);
-            } else {
-                asyncApi.doubleNumbers(alwaysFails);
-            }
-        }
+        const doubleNumbers = errorOrNext(asyncApi.doubleNumbers, alwaysFails);
 
         asyncApi.getNumbers(doubleNumbers);
     }
