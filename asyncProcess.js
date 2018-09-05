@@ -5,10 +5,14 @@ function asyncProcess(asyncApi, logger) {
     function doAsyncStuff(callback) {
         let lastState = null;
 
+        function handleErrorCase(error) {
+            logger.log('An error occurred!', error);
+            callback(error, lastState);
+        }
+
         function finishAsyncProcess(error, ...args) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error, lastState);
+                handleErrorCase(error)
             } else {
                 callback(null, lastState);
             }
