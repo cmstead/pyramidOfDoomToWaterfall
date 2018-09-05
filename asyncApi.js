@@ -13,7 +13,7 @@ function doubleNumbers(...args) {
         const continuation = args.pop();
         const doubledNumbers = args.map(x => x * 2);
 
-        continuation.apply(nullError, [null].concat(doubledNumbers));
+        continuation.apply(null, [nullError].concat(doubledNumbers));
     }, 50);
 }
 
