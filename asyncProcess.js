@@ -8,6 +8,16 @@ function asyncProcess(asyncApi, logger) {
             callback(error);
         }
 
+        function errorOrNextAction(nextAction, callback) {
+            return function(error, ...args) {
+                if(error) {
+                    handleError(error);
+                } else {
+                    nextAction.apply(null, args.concat([callback]));
+                }
+            }
+        }
+
         function finallyAction(error, ...logMessageArgs) {
             if (error) {
                 handleError(error);
