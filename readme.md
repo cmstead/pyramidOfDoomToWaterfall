@@ -23,4 +23,4 @@ The step tags are as follows:
 - 12-extract-waterfall-behavior-to-separate-file
 - 13-bonus-inline-finally-function-to-avoid-skip-reading
 
-This list is accessible by executing `git tag`. Viewing any tag can be done by executing `git checkout &lt;tagname&gt;` where `&lt;tagname&gt;` is replaced by the tag string from above
+This list is accessible by executing `git tag`. Viewing any tag can be done by executing `git checkout <tagname>` where `<tagname>` is replaced by the tag string from above
