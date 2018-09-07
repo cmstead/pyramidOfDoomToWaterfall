@@ -12,6 +12,15 @@ function asyncProcess(asyncApi, logger) {
         }
     }
 
+    function composeAsync(asyncActions, finallyFunction) {
+        return asyncActions
+            .slice(0)
+            .reverse()
+            .reduce(function(compositeFunction, nextAction){
+                return errorOrNextAction(nextAction, compositeFunction);
+            }, finallyFunction);
+    }
+
     function doAsyncStuff(callback) {
         function finallyAction(error, ...logMessageArgs) {
             if (error) {
