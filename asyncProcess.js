@@ -31,11 +31,14 @@ function asyncProcess(asyncApi, logger) {
             }
         }
 
-        const errorOrLogMessage = errorOrNextAction(asyncApi.logMessage, finallyAction);
-        const errorOrAlwaysFails = errorOrNextAction(asyncApi.alwaysFails, errorOrLogMessage);
-        const errorOrDoubleNumbers = errorOrNextAction(asyncApi.doubleNumbers, errorOrAlwaysFails);
+        const asyncComposite = composeAsync([
+            asyncApi.getNumbers,
+            asyncApi.doubleNumbers,
+            asyncApi.alwaysFails,
+            asyncApi.logMessage
+        ], finallyAction);
 
-        asyncApi.getNumbers(errorOrDoubleNumbers);
+        asyncComposite();
     }
 
     return {
