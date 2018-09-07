@@ -3,14 +3,9 @@
 function asyncProcess(asyncApi, logger) {
 
     function doAsyncStuff(callback) {
-        function handleError(error) {
-            logger.log('An error occurred!', error);
-            callback(error);
-        }
-
         function errorOrNextAction(nextAction, callback) {
-            return function(error, ...args) {
-                if(error) {
+            return function (error, ...args) {
+                if (error) {
                     callback(error);
                 } else {
                     nextAction.apply(null, args.concat([callback]));
@@ -20,7 +15,8 @@ function asyncProcess(asyncApi, logger) {
 
         function finallyAction(error, ...logMessageArgs) {
             if (error) {
-                handleError(error);
+                logger.log('An error occurred!', error);
+                callback(error);
             } else {
                 callback(null, logMessageArgs);
             }
