@@ -26,35 +26,9 @@ function asyncProcess(asyncApi, logger) {
             }
         }
 
-        function errorOrLogMessage(error, ...alwaysFailsArgs) {
-            if (error) {
-                handleError(error);
-            } else {
-                asyncApi.logMessage.apply(null, alwaysFailsArgs.concat([
-                    finallyAction
-                ]));
-            }
-        }
-
-        function errorOrAlwaysFails(error, ...doubleNumbersArgs) {
-            if (error) {
-                handleError(error);
-            } else {
-                asyncApi.alwaysFails.apply(null, doubleNumbersArgs.concat([
-                    errorOrLogMessage
-                ]));
-            }
-        }
-
-        function errorOrDoubleNumbers(error, ...getNumbersArgs) {
-            if (error) {
-                handleError(error);
-            } else {
-                asyncApi.doubleNumbers.apply(null, getNumbersArgs.concat([
-                    errorOrAlwaysFails
-                ]));
-            }
-        }
+        const errorOrLogMessage = errorOrNextAction(asyncApi.logMessage, finallyAction);
+        const errorOrAlwaysFails = errorOrNextAction(asyncApi.alwaysFails, errorOrLogMessage);
+        const errorOrDoubleNumbers = errorOrNextAction(asyncApi.doubleNumbers, errorOrAlwaysFails);
 
         asyncApi.getNumbers(errorOrDoubleNumbers);
     }
