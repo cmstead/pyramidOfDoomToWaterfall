@@ -11,7 +11,7 @@ function asyncProcess(asyncApi, logger) {
         function errorOrNextAction(nextAction, callback) {
             return function(error, ...args) {
                 if(error) {
-                    handleError(error);
+                    callback(error);
                 } else {
                     nextAction.apply(null, args.concat([callback]));
                 }
