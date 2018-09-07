@@ -3,10 +3,14 @@
 function asyncProcess(asyncApi, logger) {
 
     function doAsyncStuff(callback) {
+        function handleError(error) {
+            logger.log('An error occurred!', error);
+            callback(error);
+        }
+
         function finallyAction(error, ...logMessageArgs) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error);
+                handleError(error);
             } else {
                 callback(null, logMessageArgs);
             }
@@ -14,8 +18,7 @@ function asyncProcess(asyncApi, logger) {
 
         function errorOrLogMessage(error, ...alwaysFailsArgs) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error);
+                handleError(error);
             } else {
                 asyncApi.logMessage.apply(null, alwaysFailsArgs.concat([
                     finallyAction
@@ -25,8 +28,7 @@ function asyncProcess(asyncApi, logger) {
 
         function errorOrAlwaysFails(error, ...doubleNumbersArgs) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error);
+                handleError(error);
             } else {
                 asyncApi.alwaysFails.apply(null, doubleNumbersArgs.concat([
                     errorOrLogMessage
@@ -36,8 +38,7 @@ function asyncProcess(asyncApi, logger) {
 
         function errorOrDoubleNumbers(error, ...getNumbersArgs) {
             if (error) {
-                logger.log('An error occurred!', error);
-                callback(error);
+                handleError(error);
             } else {
                 asyncApi.doubleNumbers.apply(null, getNumbersArgs.concat([
                     errorOrAlwaysFails
