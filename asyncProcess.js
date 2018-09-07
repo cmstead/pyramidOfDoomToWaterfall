@@ -21,6 +21,10 @@ function asyncProcess(asyncApi, logger) {
             }, finallyFunction);
     }
 
+    function waterfall(asyncActions, finallyFunction) {
+        composeAsync(asyncActions, finallyFunction)();
+    }
+
     function doAsyncStuff(callback) {
         function finallyAction(error, ...logMessageArgs) {
             if (error) {
@@ -31,14 +35,12 @@ function asyncProcess(asyncApi, logger) {
             }
         }
 
-        const asyncComposite = composeAsync([
+        waterfall([
             asyncApi.getNumbers,
             asyncApi.doubleNumbers,
             asyncApi.alwaysFails,
             asyncApi.logMessage
         ], finallyAction);
-
-        asyncComposite();
     }
 
     return {
